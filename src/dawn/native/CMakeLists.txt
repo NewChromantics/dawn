@@ -887,6 +887,20 @@ if (DAWN_BUILD_MONOLITHIC_LIBRARY)
     include(BundleLibraries)
     bundle_libraries(webgpu_dawn dawn::dawn_native_objects)
     add_library(dawn::webgpu_dawn ALIAS webgpu_dawn)
+    
+    set_target_properties(webgpu_dawn PROPERTIES
+  FRAMEWORK TRUE
+  FRAMEWORK_VERSION C
+  MACOSX_FRAMEWORK_IDENTIFIER com.cmake.dynamicFramework
+  #MACOSX_FRAMEWORK_INFO_PLIST Info.plist
+  # "current version" in semantic format in Mach-O binary file
+  VERSION 16.4.0
+  # "compatibility version" in semantic format in Mach-O binary file
+  SOVERSION 1.0.0
+  #PUBLIC_HEADER dynamicFramework.h
+  #XCODE_ATTRIBUTE_CODE_SIGN_IDENTITY "iPhone Developer"
+)
+
     # Compile backend specific sources along with webgpu_dawn_native_proc sources for export macros to get applied.
     target_sources(webgpu_dawn
         PRIVATE
