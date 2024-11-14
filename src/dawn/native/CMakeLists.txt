@@ -928,7 +928,7 @@ if (DAWN_BUILD_MONOLITHIC_LIBRARY)
 		  
 		  # we need seperate info plist for ios and mac because of minimum target os value
 		  if ( CMAKE_SYSTEM_NAME == "iOS")
-		  MACOSX_FRAMEWORK_INFO_PLIST ../teInfo-ios.plist
+		  MACOSX_FRAMEWORK_INFO_PLIST ../Info-ios.plist
 		else()
 		  MACOSX_FRAMEWORK_INFO_PLIST ../Info-macos.plist
 		endif()
