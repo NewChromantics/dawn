@@ -542,6 +542,7 @@ if (DAWN_ENABLE_METAL)
         "-framework IOSurface"
         "-framework QuartzCore"
         "-framework Metal"
+        "-framework CoreFoundation"
     )
 endif()
 
@@ -918,24 +919,32 @@ if (DAWN_BUILD_MONOLITHIC_LIBRARY)
         get_target_property(headers "${dawn_target_name}" INTERFACE_SOURCES)
         list(INSERT webgpu_dawn_public_headers 0 "${headers}")
     endforeach()
+    
     # configure as .framework instead of .dylib
     set_target_properties(webgpu_dawn PROPERTIES
-  FRAMEWORK TRUE
-  #FRAMEWORK_VERSION A
-  MACOSX_FRAMEWORK_IDENTIFIER com.google.webgpudawn
-  #MACOSX_FRAMEWORK_INFO_PLIST Info.plist
-  # "current version" in semantic format in Mach-O binary file
-  #VERSION 1.0.0
-  # "compatibility version" in semantic format in Mach-O binary file
-  #SOVERSION 1.0.0
-  # note: this generates flat header paths, which is no good
-  #			we need /include/dawn/* and include/webgpu/* into dawn/ and webgpu/
-  PUBLIC_HEADER "${webgpu_dawn_public_headers}"
-  #PUBLIC_HEADER "include/dawn/*.h"
-  #XCODE_ATTRIBUTE_CODE_SIGN_IDENTITY "iPhone Developer"
-  
-  # need to insert a Privacy manifest file into Resources/
-)
+		  FRAMEWORK TRUE
+		  #FRAMEWORK_VERSION A
+		  MACOSX_FRAMEWORK_IDENTIFIER com.google.webgpudawn
+		  
+		  # we need seperate info plist for ios and mac because of minimum target os value
+		  if ( CMAKE_SYSTEM_NAME == "iOS")
+		  MACOSX_FRAMEWORK_INFO_PLIST ../teInfo-ios.plist
+		else()
+		  MACOSX_FRAMEWORK_INFO_PLIST ../Info-macos.plist
+		endif()
+		  
+		  
+		  # "current version" in semantic format in Mach-O binary file
+		  #VERSION 1.0.0
+		  # "compatibility version" in semantic format in Mach-O binary file
+		  #SOVERSION 1.0.0
+		  # note: this generates flat header paths, which is no good
+		  #			we need /include/dawn/* and include/webgpu/* into dawn/ and webgpu/
+		  PUBLIC_HEADER "${webgpu_dawn_public_headers}"
+		  #PUBLIC_HEADER "include/dawn/*.h"
+		  #XCODE_ATTRIBUTE_CODE_SIGN_IDENTITY "iPhone Developer"
+		  # need to insert a Privacy manifest file into Resources/
+	)
 
 
     if (DAWN_ENABLE_INSTALL)
