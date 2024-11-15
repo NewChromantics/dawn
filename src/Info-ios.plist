@@ -8,13 +8,13 @@
 	<string>1.0.0</string>
 	<key>CFBundleVersion</key>
 	<string>1.0.0</string>
-	<key>MinimumOSVersion</key>
-	<string>15.0</string>
 	<key>CFBundlePackageType</key>
 	<string>FMWK</string>
 	<key>DTPlatformName</key>
 	<string>iphoneos</string>
 	<key>CFBundleExecutable</key>
 	<string>webgpu_dawn</string>
+	<key>MinimumOSVersion</key>
+	<string>15.0</string>
 </dict>
 </plist>
