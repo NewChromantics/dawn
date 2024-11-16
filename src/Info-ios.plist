@@ -15,6 +15,6 @@
 	<key>CFBundleExecutable</key>
 	<string>webgpu_dawn</string>
 	<key>MinimumOSVersion</key>
-	<string>15.0</string>
+	<string>13.0</string>
 </dict>
 </plist>

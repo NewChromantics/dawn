@@ -869,6 +869,9 @@ endif()
 if (IOS)
     target_compile_options(dawn_native_objects PRIVATE -fno-objc-arc)
     target_compile_options(dawn_native PRIVATE -fno-objc-arc)
+    
+    set(CMAKE_OSX_DEPLOYMENT_TARGET "13.0" CACHE STRING "Minimum iOS deployment version" FORCE)
+
 endif()
 
 if (DAWN_BUILD_MONOLITHIC_LIBRARY)
@@ -925,6 +928,13 @@ if (DAWN_BUILD_MONOLITHIC_LIBRARY)
 		  FRAMEWORK TRUE
 		  #FRAMEWORK_VERSION A
 		  MACOSX_FRAMEWORK_IDENTIFIER com.google.webgpudawn
+		  
+		  # todo: set min os version in plist to the sdk/min version built by CMAKE
+		  #			- If the PList min os version is different to the one in the binary
+		  #				you will be unable to validate an archive for the store
+		  #	CMAKE_OSX_DEPLOYMENT_TARGET
+		  # you can extract the min version in the binary with
+		  #		vtool -show  ./src/dawn/native/webgpu_dawn.framework/webgpu_dawn
 		  
 		  # we need seperate info plist for ios and mac because of minimum target os value
 		  if ( CMAKE_SYSTEM_NAME == "iOS")
